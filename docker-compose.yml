@@ -1,0 +1,40 @@
+services:
+  puppeteer-bun-base: &base-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1G
+        reservations:
+          cpus: "0.5"
+          memory: 512M
+    volumes:
+      - ./screenshots:/app/screenshots
+    environment:
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+    restart: on-failure
+    security_opt:
+      - seccomp=unconfined # Needed for Chrome to run in a container
+    # Uncomment the following lines if you need to run the container in a non-privileged mode
+    # cap_add:
+    #   - SYS_ADMIN
+
+  puppeteer-bun-dev:
+    <<: *base-service
+    container_name: puppeteer-bun-dev
+    environment:
+      NODE_ENV: development
+    profiles:
+      - dev
+
+  puppeteer-bun-prod:
+    <<: *base-service
+    container_name: puppeteer-bun-prod
+    environment:
+      NODE_ENV: production
+    profiles:
+      - prod

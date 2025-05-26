@@ -1,0 +1,30 @@
+{
+  "name": "puppeteer",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "bun run index.ts",
+    "start:dev": "NODE_ENV=development bun run index.ts",
+    "start:prod": "NODE_ENV=production bun run index.ts",
+    "build": "bun build ./index.ts --outdir ./dist --target node",
+    "build:dev": "NODE_ENV=development bun build ./index.ts --outdir ./dist --target node",
+    "build:prod": "NODE_ENV=production bun build ./index.ts --outdir ./dist --target node",
+    "docker:build": "docker build -t puppeteer-bun .",
+    "docker:run": "docker run --rm puppeteer-bun",
+    "docker:run:dev": "docker run --rm -e NODE_ENV=development puppeteer-bun",
+    "docker:run:prod": "docker run --rm -e NODE_ENV=production puppeteer-bun",
+    "compose:up": "docker compose --profile dev up",
+    "compose:up:dev": "docker compose --profile dev up",
+    "compose:up:prod": "docker compose --profile prod up",
+    "compose:down": "docker compose down"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "puppeteer": "latest"
+  }
+}
